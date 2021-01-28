@@ -2,24 +2,31 @@ package by.tc.task04.server;
 
 import by.tc.task04.entity.Text;
 import by.tc.task04.server.parse.impl.FileParser;
-import by.tc.task04.server.parse.impl.TextParser;
+import by.tc.task04.server.text_operation.TextOperator;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 public class SocketServer
 {
     public static void main(String[] args)
     {
-        FileParser fileParser = new FileParser("src\\main\\resources\\C++ guide.txt");
+        FileParser fileParser = new FileParser();
         Text text = fileParser.parseFileToText();
 
-        TextParser textParser = new TextParser(text);
-        Text textWithRepetitiveWords = textParser.getSentencesWithRepetitiveWords();
+        TextOperator textOperator = new TextOperator(text);
+        ArrayList<Text> processedTexts = new ArrayList<Text>();
+
+        processedTexts.add(textOperator.getSentencesWithRepetitiveWords());
+        processedTexts.add(textOperator.getSentencesBySize());
+        processedTexts.add(textOperator.getUniqueWord());
+        processedTexts.add(textOperator.getWordsFromQuestions(2));
+        processedTexts.add(textOperator.changeLastAndFirstWords());
+        processedTexts.add(textOperator.getSortedText());
+        processedTexts.add(textOperator.sortByVowelRatio());
 
         Socket socket = null;
         try
@@ -29,7 +36,9 @@ public class SocketServer
 
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
-            objectOutputStream.writeObject(textWithRepetitiveWords);
+            for(Text processedText : processedTexts)
+                objectOutputStream.writeObject(processedText);
+
             objectOutputStream.close();
 
             if(socket != null) socket.close();

@@ -9,9 +9,11 @@ public class FileParser implements GeneralFileParser
 {
     private File fileToParse;
 
-    public FileParser(String path)
+    private static final String PATH = "src\\main\\resources\\C++ guide.txt";
+
+    public FileParser()
     {
-        fileToParse = new File(path);
+        fileToParse = new File(PATH);
     }
 
     public Text parseFileToText()

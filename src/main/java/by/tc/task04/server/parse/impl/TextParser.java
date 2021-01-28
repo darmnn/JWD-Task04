@@ -4,25 +4,26 @@ import by.tc.task04.entity.Sentence;
 import by.tc.task04.entity.Text;
 import by.tc.task04.server.parse.GeneralTextParser;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextParser implements GeneralTextParser
 {
-    private Text textToParse;
-
     private static final String SENTENCE = "(?Us).+?(?:[?!.]|$)";
     private static final String SPACES = "\\s+";
-    private static final String PUNCTUATION_MARKS= "[,;:.$]";
-    private static final String NOTHING = "";
+    private static final String PUNCTUATION_MARKS= "[\",;:?!.$]";
 
-    public TextParser(Text textToParse)
+    private static final String NOTHING = "";
+    private static final String SPACE = " ";
+    private static final String POINT = ".";
+    private static final String DASH = "-";
+
+    public TextParser()
     {
-        this.textToParse = textToParse;
     }
 
-    private ArrayList<Sentence> parseTextToSentences()
+    public ArrayList<Sentence> parseTextToSentences(Text textToParse)
     {
         ArrayList<Sentence> sentencesFromText = new ArrayList<Sentence>();
 
@@ -42,27 +43,33 @@ public class TextParser implements GeneralTextParser
         return sentencesFromText;
     }
 
-    public Text getSentencesWithRepetitiveWords()
+    public ArrayList<String> parseSentenceToWords(Sentence sentence)
     {
-        ArrayList<Sentence> sentencesWithRepetitiveWords = new ArrayList<Sentence>();
-        ArrayList<Sentence> allSentencesFromText = parseTextToSentences();
-        for(Sentence sentence: allSentencesFromText)
+        String[] wordsSplittedBySpace = sentence.getContent().split(SPACES);
+        ArrayList<String> wordsFromSentence = new ArrayList<String>();
+
+        for(int i = 0; i < wordsSplittedBySpace.length; i++)
         {
-            String[] wordsSplittedBySpace = sentence.getContent().split(SPACES);
-            ArrayList<String> wordsFromSentence = new ArrayList<String>();
-
-            for(int i = 0; i < wordsSplittedBySpace.length; i++)
-                wordsFromSentence.add(wordsSplittedBySpace[i].replaceAll(PUNCTUATION_MARKS, NOTHING));
-
-            for(String word : wordsFromSentence)
-            {
-                int firstOccurrenceId = sentence.getContent().indexOf(word);
-
-                if(sentence.getContent().indexOf(word, firstOccurrenceId + 1) != -1)
-                    sentencesWithRepetitiveWords.add(sentence);
-            }
+            wordsFromSentence.add(wordsSplittedBySpace[i].replaceAll(PUNCTUATION_MARKS, NOTHING));
         }
 
-        return new Text(sentencesWithRepetitiveWords);
+        wordsFromSentence.remove(POINT);
+        wordsFromSentence.remove(DASH);
+
+        return wordsFromSentence;
+    }
+
+    public Sentence getSentenceFromWords(ArrayList<String> words)
+    {
+        StringBuilder sentenceContent = new StringBuilder();
+
+        for(String word : words)
+        {
+            sentenceContent.append(word);
+            sentenceContent.append(SPACE);
+        }
+
+        sentenceContent.append(".");
+        return new Sentence(sentenceContent.toString());
     }
 }
