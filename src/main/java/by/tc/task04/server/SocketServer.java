@@ -23,7 +23,7 @@ public class SocketServer
         processedTexts.add(textOperator.getSentencesWithRepetitiveWords());
         processedTexts.add(textOperator.getSentencesBySize());
         processedTexts.add(textOperator.getUniqueWord());
-        processedTexts.add(textOperator.getWordsFromQuestions(2));
+        processedTexts.add(textOperator.getWordsFromQuestions(5));
         processedTexts.add(textOperator.changeLastAndFirstWords());
         processedTexts.add(textOperator.getSortedText());
         processedTexts.add(textOperator.sortByVowelRatio());

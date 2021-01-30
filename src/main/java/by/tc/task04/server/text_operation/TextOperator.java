@@ -17,6 +17,7 @@ public class TextOperator
     private static final String QUESTION_MARK = "?";
     private static final int FIRST = 0;
     private static final String SPACE = " ";
+    private static final String EMPTY_STRING = "";
 
     public TextOperator(Text text)
     {
@@ -206,7 +207,7 @@ public class TextOperator
 
         for(int i = 0; i < wordsToSortArr.length; i++)
         {
-            for(int j = 1; j < (wordsToSortArr.length - 1); j++)
+            for(int j = 1; j < wordsToSortArr.length; j++)
             {
                 if(wordOperator.vowelRatio(wordsToSortArr[j - 1]) > wordOperator.vowelRatio(wordsToSortArr[j]))
                 {
@@ -224,4 +225,6 @@ public class TextOperator
 
         return new Text(content.toString());
     }
+
+    
 }

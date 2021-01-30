@@ -2,7 +2,8 @@ package by.tc.task04.server.text_operation;
 
 public class WordOperator
 {
-    private static final char[] VOWELS = {'е', 'а', 'о', 'э', 'я', 'и', 'ю', 'у', 'ы'};
+    private static final char[] VOWELS = {'е', 'а', 'о', 'э', 'я', 'и', 'ю', 'у', 'ы', 'ё', 'e', 'u', 'i',
+                                            'o', 'a'};
 
     WordOperator(){
 
@@ -18,9 +19,9 @@ public class WordOperator
         return false;
     }
 
-    public int vowelRatio(String word)
+    public double vowelRatio(String word)
     {
-        int vowelCount = 0;
+        double vowelCount = 0.0;
         char[] allLetters = word.toCharArray();
 
         for(int i = 0; i < allLetters.length; i++)

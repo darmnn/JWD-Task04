@@ -10,6 +10,7 @@ public class FileParser implements GeneralFileParser
     private File fileToParse;
 
     private static final String PATH = "src\\main\\resources\\C++ guide.txt";
+    private static final String SPACE = " ";
 
     public FileParser()
     {
@@ -30,7 +31,7 @@ public class FileParser implements GeneralFileParser
             String lineToRead = reader.readLine();
             while(lineToRead != null)
             {
-                textContent.append(lineToRead);
+                textContent.append(lineToRead + SPACE);
                 lineToRead = reader.readLine();
             }
         }
@@ -44,7 +45,6 @@ public class FileParser implements GeneralFileParser
             exx.printStackTrace();
             return null;
         }
-
         text = new Text(textContent.toString());
 
         return text;

@@ -12,12 +12,12 @@ public class TextParser implements GeneralTextParser
 {
     private static final String SENTENCE = "(?Us).+?(?:[?!.]|$)";
     private static final String SPACES = "\\s+";
-    private static final String PUNCTUATION_MARKS= "[\",;:?!.$]";
+    private static final String PUNCTUATION_MARKS= "[\"(),;:?!.$]";
 
-    private static final String NOTHING = "";
+    private static final String EMPTY_STRING = "";
     private static final String SPACE = " ";
     private static final String POINT = ".";
-    private static final String DASH = "-";
+    private static final String DASH = "—";
 
     public TextParser()
     {
@@ -50,11 +50,13 @@ public class TextParser implements GeneralTextParser
 
         for(int i = 0; i < wordsSplittedBySpace.length; i++)
         {
-            wordsFromSentence.add(wordsSplittedBySpace[i].replaceAll(PUNCTUATION_MARKS, NOTHING));
+            if(!wordsSplittedBySpace[i].replaceAll(PUNCTUATION_MARKS, EMPTY_STRING).equals(EMPTY_STRING))
+                wordsFromSentence.add(wordsSplittedBySpace[i].replaceAll(PUNCTUATION_MARKS, EMPTY_STRING));
         }
 
         wordsFromSentence.remove(POINT);
-        wordsFromSentence.remove(DASH);
+        while(wordsFromSentence.contains(DASH))
+            wordsFromSentence.remove(DASH);
 
         return wordsFromSentence;
     }
@@ -69,7 +71,7 @@ public class TextParser implements GeneralTextParser
             sentenceContent.append(SPACE);
         }
 
-        sentenceContent.append(".");
+        sentenceContent.append(POINT);
         return new Sentence(sentenceContent.toString());
     }
 }
