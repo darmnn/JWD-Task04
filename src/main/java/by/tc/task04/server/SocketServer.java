@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 public class SocketServer
 {
+    private static final int PORT = 8030;
+
     public static void main(String[] args)
     {
         FileParser fileParser = new FileParser();
@@ -31,7 +33,7 @@ public class SocketServer
         Socket socket = null;
         try
         {
-            ServerSocket server = new ServerSocket(8030);
+            ServerSocket server = new ServerSocket(PORT);
             socket = server.accept();
 
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());

@@ -13,7 +13,7 @@ public class Sentence
 
     @Override
     public String toString() {
-        return "Sentence{" +
+        return "Sentence {" +
                 "content='" + content + '\'' +
                 '}';
     }

@@ -27,7 +27,7 @@ public class Text implements Serializable
 
     @Override
     public String toString() {
-        return "Text{" +
+        return "Text {" +
                 "content='" + content + '\'' +
                 '}';
     }

@@ -226,5 +226,5 @@ public class TextOperator
         return new Text(content.toString());
     }
 
-    
+
 }
