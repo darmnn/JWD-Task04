@@ -81,6 +81,30 @@ public class TextOperator
         return temp;
     }
 
+    private HashMap<String, Integer> sortByValue1(HashMap<String, Integer> hm)
+    {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer> > list = new LinkedList<Map.Entry<String, Integer>>(hm.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2)
+            {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+
+        for (Map.Entry<String, Integer> aa : list)
+        {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
+
     public Text getSentencesBySize()
     {
         ArrayList<Sentence> sentencesSortedBySize= new ArrayList<Sentence>();
@@ -185,7 +209,7 @@ public class TextOperator
         StringBuilder content = new StringBuilder();
         for(int i = 0; i < wordsToSort.size(); i++)
         {
-            if( i != 0 && wordsToSort.get(i).charAt(0) != wordsToSort.get(i - 1).charAt(0))
+            if(i != 0 && wordsToSort.get(i).charAt(0) != wordsToSort.get(i - 1).charAt(0))
                 content.append("\n\t");
 
             content.append(wordsToSort.get(i) + SPACE);
@@ -226,5 +250,183 @@ public class TextOperator
         return new Text(content.toString());
     }
 
+    public Text sortByFirstVowel()
+    {
+        ArrayList<String> wordsBeginWithVowel = new ArrayList<String>();
 
+        for(String word : allWordsFromText)
+        {
+            if(wordOperator.beginsWithVowel(word))
+                wordsBeginWithVowel.add(word);
+        }
+
+        Collections.sort(wordsBeginWithVowel);
+
+        StringBuilder content = new StringBuilder();
+        for(String word : wordsBeginWithVowel)
+            content.append(word + SPACE);
+
+        return new Text(content.toString());
+    }
+
+    public Text sortByLetterRatio(char letter)
+    {
+        StringBuilder content = new StringBuilder();
+        ArrayList<String> wordsToSort = new ArrayList<String>();
+        wordsToSort.addAll(allWordsFromText);
+
+        String[] wordsToSortArr = new String[wordsToSort.size()];
+
+        for(int i = 0; i < wordsToSort.size(); i++)
+            wordsToSortArr[i] = wordsToSort.get(i);
+
+        for(int i = 0; i < wordsToSortArr.length; i++)
+        {
+            for(int j = 1; j < wordsToSortArr.length; j++)
+            {
+                if(wordOperator.letterRatio(wordsToSortArr[j - 1], letter) > wordOperator.letterRatio(wordsToSortArr[j], letter))
+                {
+                    String temp = wordsToSortArr[j- 1];
+                    wordsToSortArr[j - 1] = wordsToSortArr[j];
+                    wordsToSortArr[j] = temp;
+                }
+            }
+        }
+
+        for(int i = 0; i < wordsToSortArr.length; i++)
+        {
+            content.append(wordsToSortArr[i] + SPACE);
+        }
+
+        return new Text(content.toString());
+    }
+
+    public Text sortWordsByOccurrence(ArrayList<String> words)
+    {
+        HashMap<String, Integer> wordsOccurrences = new HashMap<String, Integer>();
+
+        for(String word : words)
+        {
+            int occurrenceCount = 0;
+            for(Sentence sentence : allSentencesFromText)
+            {
+                ArrayList<String> wordsFromSentence = textParser.parseSentenceToWords(sentence);
+
+                for(String wordFromSentence : wordsFromSentence)
+                {
+                    if(wordFromSentence.equals(word))
+                        occurrenceCount++;
+                }
+            }
+            wordsOccurrences.put(word, occurrenceCount);
+        }
+
+        wordsOccurrences = sortByValue1(wordsOccurrences);
+
+        StringBuilder content = new StringBuilder();
+        for(String word : wordsOccurrences.keySet())
+            content.append(word + SPACE);
+
+        return new Text(content.toString());
+    }
+
+    public Text deleteSubstring(String startWord, String endWord)
+    {
+        Text resultText = new Text(EMPTY_STRING);
+
+        boolean textEnd = false;
+        int startId = 0;
+        while(!textEnd)
+        {
+            int index = text.getContent().indexOf(startWord, startId);
+
+            if(index != -1 && text.getContent().indexOf(endWord, index + startWord.length()) != -1)
+            {
+                int endWordId = text.getContent().indexOf(endWord, index + startWord.length());
+
+                StringBuilder newText = new StringBuilder(text.getContent());
+                newText.delete(index, endWordId + endWord.length());
+                resultText.setContent(newText.toString());
+
+                startId = endWordId + endWord.length();
+            }
+            else textEnd = true;
+        }
+
+        return resultText;
+    }
+
+    public Text deleteWordsStartingWithConsonants(int wordLength)
+    {
+        ArrayList<Sentence> newSentences = new ArrayList<Sentence>();
+
+        for(Sentence sentence : allSentencesFromText)
+        {
+            StringBuilder sentenceContent = new StringBuilder(sentence.getContent());
+
+            ArrayList<String> wordsFromSentence = textParser.parseSentenceToWords(sentence);
+            for(String word : wordsFromSentence)
+            {
+                if(!wordOperator.beginsWithVowel(word) && word.length() == wordLength)
+                {
+                    int startId = sentenceContent.indexOf(word);
+                    sentenceContent.delete(startId, startId + word.length());
+                }
+            }
+
+            newSentences.add(new Sentence(sentenceContent.toString()));
+        }
+
+        return new Text(newSentences);
+    }
+
+    public Text sortByLetterRatio1(char letter)
+    {
+        StringBuilder content = new StringBuilder();
+        ArrayList<String> wordsToSort = new ArrayList<String>();
+        wordsToSort.addAll(allWordsFromText);
+
+        String[] wordsToSortArr = new String[wordsToSort.size()];
+
+        for(int i = 0; i < wordsToSort.size(); i++)
+            wordsToSortArr[i] = wordsToSort.get(i);
+
+        for(int i = 0; i < wordsToSortArr.length; i++)
+        {
+            for(int j = 1; j < wordsToSortArr.length; j++)
+            {
+                if(wordOperator.letterRatio(wordsToSortArr[j - 1], letter) < wordOperator.letterRatio(wordsToSortArr[j], letter))
+                {
+                    String temp = wordsToSortArr[j- 1];
+                    wordsToSortArr[j - 1] = wordsToSortArr[j];
+                    wordsToSortArr[j] = temp;
+                }
+            }
+        }
+
+        for(int i = 0; i < wordsToSortArr.length; i++)
+        {
+            content.append(wordsToSortArr[i] + SPACE);
+        }
+
+        return new Text(content.toString());
+    }
+
+    public Text deleteFirstLetterOccurrencesFromAllWords()
+    {
+        ArrayList<Sentence> newSentences = new ArrayList<Sentence>();
+
+        for(Sentence sentence : allSentencesFromText)
+        {
+            ArrayList<String> wordsFromSentence = textParser.parseSentenceToWords(sentence);
+            ArrayList<String> newWords = new ArrayList<String>();
+
+            for(String word : wordsFromSentence)
+                newWords.add(wordOperator.deleteFirstLetterOccurrences(word));
+
+            newSentences.add(textParser.getSentenceFromWords(newWords));
+        }
+
+        return new Text(newSentences);
+    }
 }

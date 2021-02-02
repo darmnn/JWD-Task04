@@ -11,7 +11,7 @@ public class SocketClient
 {
     private static final String HOST = "127.0.0.1";
     private static int PORT = 8030;
-    private static int NUMBER_OF_OPERATIONS = 7;
+    private static int NUMBER_OF_OPERATIONS = 14;
 
     public static void main(String[] args)
     {

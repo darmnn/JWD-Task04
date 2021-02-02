@@ -2,6 +2,7 @@ package by.tc.task04.server;
 
 import by.tc.task04.entity.Text;
 import by.tc.task04.server.parse.impl.FileParser;
+import by.tc.task04.server.service.TextOperatorService;
 import by.tc.task04.server.text_operation.TextOperator;
 
 import java.io.IOException;
@@ -20,15 +21,8 @@ public class SocketServer
         Text text = fileParser.parseFileToText();
 
         TextOperator textOperator = new TextOperator(text);
-        ArrayList<Text> processedTexts = new ArrayList<Text>();
-
-        processedTexts.add(textOperator.getSentencesWithRepetitiveWords());
-        processedTexts.add(textOperator.getSentencesBySize());
-        processedTexts.add(textOperator.getUniqueWord());
-        processedTexts.add(textOperator.getWordsFromQuestions(5));
-        processedTexts.add(textOperator.changeLastAndFirstWords());
-        processedTexts.add(textOperator.getSortedText());
-        processedTexts.add(textOperator.sortByVowelRatio());
+        TextOperatorService textOperatorService= new TextOperatorService(textOperator);
+        ArrayList<Text> processedTexts = textOperatorService.getProcessedTexts();
 
         Socket socket = null;
         try
