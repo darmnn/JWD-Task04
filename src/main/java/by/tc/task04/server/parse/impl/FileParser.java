@@ -9,7 +9,7 @@ public class FileParser implements GeneralFileParser
 {
     private File fileToParse;
 
-    private static final String PATH = "src\\main\\resources\\C++ guide.txt";
+    private static final String PATH = ".\\resources\\C++ guide.txt";
     private static final String SPACE = " ";
 
     public FileParser()
@@ -17,7 +17,7 @@ public class FileParser implements GeneralFileParser
         fileToParse = new File(PATH);
     }
 
-    public Text parseFileToText()
+    public Text parseFileToText() throws FileNotFoundException, IOException
     {
         Text text = null;
 
@@ -37,13 +37,11 @@ public class FileParser implements GeneralFileParser
         }
         catch (FileNotFoundException ex)
         {
-            ex.printStackTrace();
-            return null;
+           throw ex;
         }
         catch (IOException exx)
         {
-            exx.printStackTrace();
-            return null;
+            throw exx;
         }
         text = new Text(textContent.toString());
 

@@ -429,4 +429,25 @@ public class TextOperator
 
         return new Text(newSentences);
     }
+
+    public Text changeWordToSubstring(int wordLength, String substring) {
+        ArrayList<Sentence> newSentences = new ArrayList<Sentence>();
+
+        Sentence sentence = allSentencesFromText.get(FIRST);
+
+        ArrayList<String> wordsFromSentence = textParser.parseSentenceToWords(sentence);
+        ArrayList<String> newWords = new ArrayList<String>();
+
+        for (String word : wordsFromSentence) {
+            if (word.length() == wordLength)
+                newWords.add(substring);
+            else newWords.add(word);
+        }
+
+        newSentences.add(textParser.getSentenceFromWords(newWords));
+        for (int i = 1; i < allSentencesFromText.size(); i++)
+            newSentences.add(allSentencesFromText.get(i));
+
+        return new Text(newSentences);
+    }
 }

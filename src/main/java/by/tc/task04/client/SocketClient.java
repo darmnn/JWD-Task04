@@ -2,6 +2,7 @@ package by.tc.task04.client;
 
 import by.tc.task04.client.print.impl.TextPrinter;
 import by.tc.task04.entity.Text;
+import by.tc.task04.exception.ClientException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,9 +12,21 @@ public class SocketClient
 {
     private static final String HOST = "127.0.0.1";
     private static int PORT = 8030;
-    private static int NUMBER_OF_OPERATIONS = 14;
+    private static int NUMBER_OF_OPERATIONS = 15;
 
     public static void main(String[] args)
+    {
+        try
+        {
+            runClient();
+        }
+        catch (ClientException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static void runClient() throws ClientException
     {
         Socket socket = null;
         TextPrinter textPrinter = new TextPrinter(null);
@@ -37,11 +50,11 @@ public class SocketClient
         }
         catch(IOException e)
         {
-            e.printStackTrace();
+            throw new ClientException(e);
         }
         catch (ClassNotFoundException e)
         {
-            e.printStackTrace();
+            throw new ClientException(e);
         }
         finally {
             try {
