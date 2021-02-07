@@ -8,6 +8,7 @@ import by.tc.task04.server.text_operation.TextOperator;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -51,10 +52,12 @@ public class SocketServer
                 socket = server.accept();
 
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 
                 for(Text processedText : processedTexts)
                     objectOutputStream.writeObject(processedText);
 
+                objectInputStream.close();
                 objectOutputStream.close();
                 if(socket != null) socket.close();
             }

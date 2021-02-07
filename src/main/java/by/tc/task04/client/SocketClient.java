@@ -6,6 +6,7 @@ import by.tc.task04.exception.ClientException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SocketClient
@@ -36,6 +37,7 @@ public class SocketClient
             socket = new Socket(HOST, PORT);
 
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
             for(int i = 1; i <= NUMBER_OF_OPERATIONS; i++)
             {
@@ -46,6 +48,8 @@ public class SocketClient
                 textPrinter.print();
             }
 
+            objectInputStream.close();
+            objectOutputStream.close();
             socket.close();
         }
         catch(IOException e)
@@ -56,7 +60,8 @@ public class SocketClient
         {
             throw new ClientException(e);
         }
-        finally {
+        finally
+        {
             try {
                 socket.close();
             } catch (IOException e) {

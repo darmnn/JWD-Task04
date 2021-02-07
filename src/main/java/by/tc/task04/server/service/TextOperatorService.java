@@ -36,7 +36,7 @@ public class TextOperatorService
         processedTexts.add(textOperator.deleteWordsStartingWithConsonants(8));
         processedTexts.add(textOperator.sortByLetterRatio1('о'));
         processedTexts.add(textOperator.deleteFirstLetterOccurrencesFromAllWords());
-        processedTexts.add(textOperator.changeWordToSubstring(6, "звонит моя мобила"));
+        processedTexts.add(textOperator.changeWordToSubstring(6, "замененная подстрока"));
 
         return processedTexts;
     }
