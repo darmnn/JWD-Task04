@@ -8,6 +8,10 @@ public class Text implements Serializable
 {
     private String content;
 
+    public Text()
+    {
+
+    }
     public Text(String content)
     {
         this.content = content;

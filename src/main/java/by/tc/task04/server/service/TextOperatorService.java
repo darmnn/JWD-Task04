@@ -14,29 +14,19 @@ public class TextOperatorService
         this.textOperator = textOperator;
     }
 
-    public ArrayList<Text> getProcessedTexts()
+    public Text[] getProcessedTexts()
     {
-        ArrayList<Text> processedTexts = new ArrayList<Text>();
 
-        processedTexts.add(textOperator.getSentencesWithRepetitiveWords());
-        processedTexts.add(textOperator.getSentencesBySize());
-        processedTexts.add(textOperator.getUniqueWord());
-        processedTexts.add(textOperator.getWordsFromQuestions(5));
-        processedTexts.add(textOperator.changeLastAndFirstWords());
-        processedTexts.add(textOperator.getSortedText());
-        processedTexts.add(textOperator.sortByVowelRatio());
-        processedTexts.add(textOperator.sortByFirstVowel());
-        processedTexts.add(textOperator.sortByLetterRatio('а'));
-        ArrayList<String> words = new ArrayList<String>();
-        words.add("C++");
-        words.add("язык");
-        words.add("программист");
-        processedTexts.add(textOperator.sortWordsByOccurrence(words));
-        processedTexts.add(textOperator.deleteSubstring("Цель", "дней"));
-        processedTexts.add(textOperator.deleteWordsStartingWithConsonants(8));
-        processedTexts.add(textOperator.sortByLetterRatio1('о'));
-        processedTexts.add(textOperator.deleteFirstLetterOccurrencesFromAllWords());
-        processedTexts.add(textOperator.changeWordToSubstring(6, "замененная подстрока"));
+        Text[] processedTexts = new Text[14];
+
+        processedTexts[0] = textOperator.getSentencesWithRepetitiveWords();
+        processedTexts[1] = textOperator.getSentencesBySize();
+        processedTexts[2] = textOperator.getUniqueWord();
+        processedTexts[4] = textOperator.changeLastAndFirstWords();
+        processedTexts[5] = textOperator.getSortedText();
+        processedTexts[6] = textOperator.sortByVowelRatio();
+        processedTexts[7] = textOperator.sortByFirstVowel();
+        processedTexts[13] = textOperator.deleteFirstLetterOccurrencesFromAllWords();
 
         return processedTexts;
     }

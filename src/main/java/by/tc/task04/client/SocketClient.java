@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class SocketClient
 {
@@ -41,11 +42,116 @@ public class SocketClient
 
             for(int i = 1; i <= NUMBER_OF_OPERATIONS; i++)
             {
-                Text text = (Text)objectInputStream.readObject();
+                switch(i)
+                {
+                    case 4:
+                    {
+                        objectOutputStream.writeObject(i);
+                        int wordLength = 5;
+                        objectOutputStream.writeObject(wordLength);
 
-                textPrinter.setTextToPrint(text);
-                System.out.println("Result of operation number " + i + ":");
-                textPrinter.print();
+                        Text text = (Text)objectInputStream.readObject();
+                        textPrinter.setTextToPrint(text);
+                        System.out.println("Result of operation number " + i + ":");
+                        textPrinter.print();
+
+                        break;
+                    }
+                    case 9:
+                    {
+                        objectOutputStream.writeObject(i);
+                        char letter = 'а';
+                        objectOutputStream.writeObject(letter);
+
+                        Text text = (Text)objectInputStream.readObject();
+                        textPrinter.setTextToPrint(text);
+                        System.out.println("Result of operation number " + i + ":");
+                        textPrinter.print();
+
+                        break;
+                    }
+                    case 10:
+                    {
+                        objectOutputStream.writeObject(i);
+                        ArrayList<String> words = new ArrayList<String>();
+                        words.add("C++");
+                        words.add("язык");
+                        words.add("программист");
+                        objectOutputStream.writeObject(words);
+
+                        Text text = (Text)objectInputStream.readObject();
+                        textPrinter.setTextToPrint(text);
+                        System.out.println("Result of operation number " + i + ":");
+                        textPrinter.print();
+
+                        break;
+                    }
+                    case 11:
+                    {
+                        objectOutputStream.writeObject(i);
+                        String firstWord = "Цель";
+                        String lastWord = "дней";
+                        objectOutputStream.writeObject(firstWord);
+                        objectOutputStream.writeObject(lastWord);
+
+                        Text text = (Text)objectInputStream.readObject();
+                        textPrinter.setTextToPrint(text);
+                        System.out.println("Result of operation number " + i + ":");
+                        textPrinter.print();
+
+                        break;
+                    }
+                    case 12:
+                    {
+                        objectOutputStream.writeObject(i);
+                        int wordLength = 8;
+                        objectOutputStream.writeObject(wordLength);
+
+                        Text text = (Text)objectInputStream.readObject();
+                        textPrinter.setTextToPrint(text);
+                        System.out.println("Result of operation number " + i + ":");
+                        textPrinter.print();
+
+                        break;
+                    }
+                    case 13:
+                    {
+                        objectOutputStream.writeObject(i);
+                        char letter = 'о';
+                        objectOutputStream.writeObject(letter);
+
+                        Text text = (Text)objectInputStream.readObject();
+                        textPrinter.setTextToPrint(text);
+                        System.out.println("Result of operation number " + i + ":");
+                        textPrinter.print();
+
+                        break;
+                    }
+                    case 15:
+                    {
+                        objectOutputStream.writeObject(i);
+                        int wordLength = 6;
+                        objectOutputStream.writeObject(wordLength);
+                        String substringToChange = "замененная подстрока";
+                        objectOutputStream.writeObject(substringToChange);
+
+                        Text text = (Text)objectInputStream.readObject();
+                        textPrinter.setTextToPrint(text);
+                        System.out.println("Result of operation number " + i + ":");
+                        textPrinter.print();
+
+                        break;
+                    }
+                    default:
+                    {
+                        objectOutputStream.writeObject(i);
+
+                        Text text = (Text)objectInputStream.readObject();
+                        textPrinter.setTextToPrint(text);
+                        System.out.println("Result of operation number " + i + ":");
+                        textPrinter.print();
+                    }
+                }
             }
 
             objectInputStream.close();
